@@ -11,7 +11,7 @@ from PyQt4 import QtCore, QtGui
 from moduller.PyVakitci import PyVakitci
 
 class Program:
-    version = 1.64
+    version = 1.7
     
     def __init__(self):
         self.ayarlarKonum = QtCore.QDir.homePath() + "/.PyVakitci-" + str(self.version)

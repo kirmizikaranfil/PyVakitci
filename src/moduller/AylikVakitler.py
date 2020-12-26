@@ -40,10 +40,10 @@ class AylikVakitler(QtGui.QDialog, Ui_Dialog):
             
     def tabloModeliniOlustur(self):
         self.satirSayisi = 30
-        self.sutunSayisi = 9
+        self.sutunSayisi = 8
         self.model = QtGui.QStandardItemModel(self.satirSayisi, self.sutunSayisi)
         
-        sutunAdlari = ["İlçe", "Tarih", "İmsak", "Güneş", "Öğle", "İkindi", "Akşam", "Yatsı", "Kıble Saati"]
+        sutunAdlari = ["Lokasyon", "Tarih", "İmsak", "Güneş", "Öğle", "İkindi", "Akşam", "Yatsı"]
         
         self.indis = 0
         for sutunAdi in sutunAdlari:

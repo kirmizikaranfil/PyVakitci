@@ -3,7 +3,7 @@
 
 # Hazırlayan : Rahman Yazgan (rahmanyazgan@gmail.com)
 # Lisans : GPL v.3
-# Sürüm : 1.64
+# Sürüm : 1.7
 # Platform : Windows
 
 import datetime, os, platform, re, shutil, sys, threading, urllib.request, webbrowser, winreg
@@ -45,7 +45,7 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
     sehirler = None
     rlock = None
     veritabaniDosyasi = None
-    version = 1.67
+    version = 1.7
 
     def __init__(self):
         super(PyVakitci, self).__init__()
@@ -81,7 +81,7 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
         self.ayarlarKonum = QtCore.QDir.homePath() + "/.PyVakitci-" + str(self.version)
         self.ayarDosyasi = self.ayarlarKonum + "/ayarlar.ini"
        
-        self.diyanetURL = "http://www.diyanet.gov.tr"
+        self.diyanetURL = DiyanetUlkeler.BASE_URL
        
         SehirleriAl.ayarDosyasi = self.ayarDosyasi
         IlceleriAl.ayarDosyasi = self.ayarDosyasi
@@ -247,16 +247,16 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
 
     def otomatikGuncellestir(self):
         if self.otomatik_guncellestir_checkBox.isChecked():
-            url = "https://github.com/kirmizikaranfil"
-            githubMasterUrl = "https://raw.githubusercontent.com/kirmizikaranfil/PyVakitci/master"
+            url = "https://sourceforge.net/projects/pyvakitci2011/files/"
+            file_url = "https://master.dl.sourceforge.net/project/pyvakitci2011"
             
             if self.siteyeBaglantiVarMi(url):
-                site = urllib.request.urlopen(githubMasterUrl + "/Version")
+                site = urllib.request.urlopen(file_url + "/Version")
                 
                 version = float(site.read())
                 
                 if self.version < version:
-                    site = urllib.request.urlopen(githubMasterUrl +"/SurumNotlari")
+                    site = urllib.request.urlopen(file_url +"/SurumNotlari")
                         
                     surumNotlari = site.read().decode('utf-8')
                     
@@ -875,6 +875,7 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
        
         if self.yerKontrol(self.ilce) != None:
             Vakitler.ilce = self.ilceler.get(self.ilce)
+            Vakitler.link = self.linkler.get(self.ilce)
         else:
             Vakitler.ilce = None
            
@@ -1117,14 +1118,10 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
 
     def vakitlerMesaj(self):
         try:
-            mesaj = "\n" + self.ilceler_comboBox.currentText() + "\n\n" + \
-                    self.namazvakti.replace("Şimdi ", "") + "\n" + \
-                    "\nİmsak:\t" + Vakitler.imsak + \
-                    "\nGüneş:\t" + Vakitler.gunes + \
-                    "\nÖğle:\t" + Vakitler.ogle + \
-                    "\nİkindi:\t" + Vakitler.ikindi + \
-                    "\nAkşam:\t" + Vakitler.aksam + \
-                    "\nYatsı:\t" + Vakitler.yatsi
+            mesaj = self.ilceler_comboBox.currentText() + " için " + self.namazvakti.replace("Şimdi ", "") + \
+                    "\nİmsak: " + Vakitler.imsak + "\tGüneş: " + Vakitler.gunes + \
+                    "\nÖğle: " + Vakitler.ogle + "\tİkindi: " + Vakitler.ikindi + \
+                    "\nAkşam: " + Vakitler.aksam + "\tYatsı: " + Vakitler.yatsi
         except AttributeError:
             mesaj = "Namaz vakitleri alınamadı."
 
@@ -1234,7 +1231,7 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
 
     def sehirKontrolu(self):
         self.sehirler_comboBox.clear()
-        # self.sehirleriAl()
+        self.sehirleriAl()
    
     def sehirleriAl(self):
         self.sehirler = None
@@ -1269,10 +1266,14 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
        
         if self.sehirler_comboBox.currentIndex() > -1:
             if self.siteyeBaglantiVarMi(self.diyanetURL):
-                ilceleriAl = IlceleriAl(self.sehirler, self.sehirler_comboBox.currentText())
-                self.ilceler = ilceleriAl.basla()
+                ilceleriAl = IlceleriAl(self.sehirler, self.ulkeler_comboBox.currentText(), self.sehirler_comboBox.currentText())
+                data = ilceleriAl.basla()
+                
+                self.ilceler = data[0]
+                self.linkler = data[1]
             else:
                 self.ilceler = self.settings.value("Diyanet/ilceler")
+                self.linkler = self.settings.value("Diyanet/linkler")
                
             if len(self.ilceler.keys()) > 0:
                 self.ilceleriEkle()

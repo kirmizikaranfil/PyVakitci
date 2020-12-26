@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>805</width>
+    <width>720</width>
     <height>550</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>805</width>
+    <width>720</width>
     <height>550</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>805</width>
+    <width>720</width>
     <height>550</height>
    </size>
   </property>
@@ -36,22 +36,25 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>807</width>
+     <width>731</width>
      <height>552</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
+    <property name="spacing">
+     <number>6</number>
+    </property>
     <item>
      <widget class="QTableView" name="tableView">
       <property name="minimumSize">
        <size>
-        <width>805</width>
+        <width>725</width>
         <height>550</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
-        <width>805</width>
+        <width>725</width>
         <height>550</height>
        </size>
       </property>

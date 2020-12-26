@@ -3,8 +3,9 @@
 # Hazırlayan : Rahman Yazgan (rahmanyazgan@gmail.com)
 # Lisans : GPL v.3
 
+import datetime, re, requests, sqlite3, threading
 from PyQt4 import QtGui, QtCore
-import re, sqlite3, threading, urllib.parse, urllib.request
+from bs4 import BeautifulSoup
 
 from moduller.SiteyeBaglan import SiteyeBaglan
 from moduller.DiyanetUlkeler import DiyanetUlkeler
@@ -85,7 +86,7 @@ class Vakitler(threading.Thread):
                                 tarihler.append(str(tarih[0]))
 
                             if tarihler.count(self.simdikiTarih) == 1:
-                                cursor.execute("SELECT İmsak, Güneş, Öğle, İkindi, Akşam, Yatsı, Kıble FROM namazvakitleri WHERE tarih = '" + str(self.simdikiTarih) + "'")
+                                cursor.execute("SELECT İmsak, Güneş, Öğle, İkindi, Akşam, Yatsı FROM namazvakitleri WHERE tarih = '" + str(self.simdikiTarih) + "'")
                                 veriler = cursor.fetchone()
                                 
                                 for vakit in veriler:
@@ -129,7 +130,7 @@ class Vakitler(threading.Thread):
             return "Şehir"
 
     def diyanetAylikVakitleriKaydet(self, ilceSehir):
-        url = "http://www.diyanet.gov.tr"
+        url = DiyanetUlkeler.BASE_URL
         
         try:
             if (Vakitler.ulke != None) or (Vakitler.sehir != None):
@@ -149,74 +150,51 @@ class Vakitler(threading.Thread):
                             pass
                             #print("namazvakitleri tablosu yok.")
             
-                        sqlString = "CREATE TABLE namazvakitleri (" + str(ilceSehir) + ", Tarih, İmsak, Güneş, Öğle, İkindi, Akşam, Yatsı, Kıble)"
+                        sqlString = "CREATE TABLE namazvakitleri (" + str(ilceSehir) + ", Tarih, İmsak, Güneş, Öğle, İkindi, Akşam, Yatsı)"
                         cursor.execute(sqlString)
             
                     except sqlite3.OperationalError:
                         pass
                         #print("namazvakitleri tablosu zaten var.")
                     
-                    url = self.diyanetUlkeler.PRAYER_POST_URL
+                    #try:
+                    url = url + Vakitler.link
+                    response = requests.get(url)
+                    soup = BeautifulSoup(response.text, "html.parser")
+                    table = soup.find_all("table", class_="vakit-table")
+                    aylik_vakitler = table[1].find_all("tr")
                     
-                    if self.siteyeBaglantiVarMi("http://www.diyanet.gov.tr/tr/PrayerTime"):
-                        url = url
-                    else:
-                        url = self.diyanetUlkeler.PRAYER_POST_URL_NEW
-                    
-                    country = Vakitler.ulke
-                    state = Vakitler.sehir
-                    city = Vakitler.ilce
-                    
-                    if Vakitler.ilce != None:
-                        values = {'country': country, 'state': state, 'city': city, 'period': "Aylik"}
-                    else:
-                        values = {'country': country, 'state': state, 'period': "Aylik"}
-                    
-                    try:
-                        data = urllib.parse.urlencode(values)
-                        binary_data = data.encode('UTF-8')
-                        request = urllib.request.Request(url, binary_data)
-                        response = urllib.request.urlopen(request)
+                    if len(aylik_vakitler) > 0:
+                        aylik_vakitler.remove(aylik_vakitler[0])
                         
-                        html = response.read()
+                        temp_date = datetime.datetime.now()
                         
-                        derle = re.compile("[0-3]+[0-9][.][0-2][0-9][.][0-2]+[0-9]")
-                        tarihler = derle.findall(str(html))
-                        
-                        
-                        if tarihler.count(Vakitler.simdikiTarih) == 0:
-                            Vakitler.tarihHatasi = True
-                            QtCore.QFile(self.pyvakitci.veritabaniDosyasi).remove()
-                        else:
-                            derle = re.compile('<td class="tCenter">(.*?)</td>')
-                            saatler = derle.findall(str(html))
-            
-                            i = 0
-                            j = 0
-                            while i < 240:
-                                imsak = saatler[i+1]
-                                gunes = saatler[i+2]
-                                ogle = saatler[i+3]
-                                ikindi = saatler[i+4]
-                                aksam = saatler[i+5]
-                                yatsi = saatler[i+6]
-                                kıbleSaati = saatler[i+7]
-        
-                                sqlString = "INSERT INTO namazvakitleri VALUES ('" + \
-                                                str(self.veritabaniSehir) + "', '" + tarihler[j] + "', '" + \
-                                                imsak + "', '" + gunes + "', '" + ogle + "', '" + \
-                                                ikindi + "', '" + aksam + "', '" + yatsi + "', '" + \
-                                                kıbleSaati + "')"
-            
-                                cursor.execute(sqlString)
-            
-                                i = i + 8
-                                j = j + 1
+                        for item in aylik_vakitler:
+                            data = re.match("\n(.*?)\n(.*?)\n(.*?)\n(.*?)\n(.*?)\n(.*?)\n(.*?)\n", item.getText()).groups()
+                            
+                            if len(data) > 0:
+                                tarih = temp_date.date().strftime('%d.%m.%Y') 
+                                imsak = data[1]
+                                gunes = data[2]
+                                ogle = data[3]
+                                ikindi = data[4]
+                                aksam = data[5]
+                                yatsi = data[6]
                                 
+                                sqlString = "INSERT INTO namazvakitleri VALUES ('" + \
+                                    str(self.veritabaniSehir) + "', '" + tarih + "', '" + \
+                                    imsak + "', '" + gunes + "', '" + ogle + "', '" + \
+                                    ikindi + "', '" + aksam + "', '" + yatsi + "')"
+                                    
+                                cursor.execute(sqlString)
+                                
+                                temp_date = temp_date + datetime.timedelta(days=1)
+                        
                         connect.commit()
+                        
                         Vakitler.tarihHatasi = False
-                    except:
-                        pass
+                    #except:
+                    #    pass
                 else:
                     QtGui.QMessageBox.information(self, "Bilgilendirme", "Diyanetin sitesine bağlanılamadığından vakitler alınamadı/güncellenemedi.","Tamam")
         except:

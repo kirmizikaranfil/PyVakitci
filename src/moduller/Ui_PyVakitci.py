@@ -1120,3 +1120,4 @@ class Ui_MainWindow(object):
         self.actionCleanlooks.setText(_translate("MainWindow", "Cleanlooks", None))
         self.actionPlastique.setText(_translate("MainWindow", "Plastique", None))
         self.actionWindowsXP.setText(_translate("MainWindow", "Windows XP", None))
+        self.actionVakitleriGoster.setText(_translate("MainWindow", "Vakitleri Göster", None))

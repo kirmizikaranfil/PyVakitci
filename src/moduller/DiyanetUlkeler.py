@@ -4,14 +4,13 @@
 # Lisans : GPL v.3
 
 class DiyanetUlkeler:
-    COUNTRY_URL = "http://www.diyanet.gov.tr/PrayerTime/FillState"
-    COUNTRY_URL_NEW = "http://web2.diyanet.gov.tr/PrayerTime/FillState"
+    BASE_URL = "https://namazvakitleri.diyanet.gov.tr"
     
-    CITY_URL = "http://www.diyanet.gov.tr/PrayerTime/FillCity"
-    CITY_URL_NEW = "http://web2.diyanet.gov.tr/PrayerTime/FillCity"
+    REQUEST_URL = BASE_URL + "/tr-TR/home/GetRegList?"
     
-    PRAYER_POST_URL = "http://www.diyanet.gov.tr/tr/PrayerTime/PrayerTimesList"
-    PRAYER_POST_URL_NEW = "http://web2.diyanet.gov.tr/tr/PrayerTime/PrayerTimesList"
+    PRAYER_URL = "ChangeType=country&CountryId=[COUNTRY_ID]"
+
+    PRAYER_URL_STATE = "ChangeType=state&CountryId=[COUNTRY_ID]&StateId=[STATE_ID]"
     
     ulkeler = {"ABD": 33, "AFGANISTAN": 166, "ALMANYA": 13, "ANDORRA": 17, "ANGOLA": 140, "ANGUILLA": 125, "ANTIGUA VE BARBUDA": 90, "ARJANTIN": 199, 
                "ARNAVUTLUK": 25, "ARUBA": 153, "AVUSTRALYA": 59, "AVUSTURYA": 35, "AZERBAYCAN": 5, "BAHAMALAR": 54, "BAHREYN": 132, "BANGLADES": 177, 
@@ -39,3 +38,17 @@ class DiyanetUlkeler:
                "TRINIDAT VE TOBAGO": 96, "TUNUS": 118, "TURKMENISTAN": 159, "TÜRKİYE": 2, "UGANDA": 75, "UKRAYNA": 40, "UKRAYNA-KIRIM": 29, 
                "UMMAN": 173, "URDUN": 192, "URUGUAY": 201, "VANUATU": 56, "VATIKAN": 10, "VENEZUELA": 186, "VIETNAM": 135, "YEMEN": 148, 
                "YENI KALEDONYA": 115, "YENI ZELLANDA": 193, "YESIL BURUN": 144, "YUNANISTAN": 22, "ZAMBIYA": 158, "ZIMBABVE": 136}
+
+    # Turkiye icin sehirler
+    sehirler = {"ADANA": 500, "ADIYAMAN": 501, "AFYONKARAHİSAR": 502, "AĞRI": 503, "AKSARAY": 504, "AMASYA": 505, "ANKARA": 506, "ANTALYA": 507, 
+                "ARDAHAN": 508, "ARTVİN": 509, "AYDIN": 510, "BALIKESİR": 511, "BARTIN": 512, "BATMAN": 513, "BAYBURT": 514, "BİLECİK": 515, 
+                "BİNGÖL": 516, "BİTLİS": 517, "BOLU": 518, "BURDUR": 519, "BURSA": 520, "ÇANAKKALE": 521, "ÇANKIRI": 522, "ÇORUM": 523, 
+                "DENİZLİ": 524, "DİYARBAKIR": 525, "DÜZCE": 526, "EDİRNE": 527, "ELAZIĞ": 528, "ERZİNCAN": 529, "ERZURUM": 530, 
+                "ESKİŞEHİR": 531, "GAZİANTEP": 532, "GİRESUN": 533, "GÜMÜŞHANE": 534, "HAKKARİ": 535, "HATAY": 536, "IĞDIR": 537, 
+                "ISPARTA": 538, "İSTANBUL": 539, "İZMİR": 540, "KAHRAMANMARAŞ": 541, "KARABÜK": 542, "KARAMAN": 543, "KARS": 544, 
+                "KASTAMONU": 545, "KAYSERİ": 546, "KİLİS": 547, "KIRIKKALE": 548, "KIRKLARELİ": 549, "KIRŞEHİR": 550, "KOCAELİ": 551, 
+                "KONYA": 552, "KÜTAHYA": 553, "MALATYA": 554, "MANİSA": 555, "MARDİN": 556, "MERSİN": 557, "MUĞLA": 558, "MUŞ": 559, 
+                "NEVŞEHİR": 560, "NİĞDE": 561, "ORDU": 562, "OSMANİYE": 563, "RİZE": 564, "SAKARYA": 565, "SAMSUN": 566, "ŞANLIURFA": 567, 
+                "SİİRT": 568, "SİNOP": 569, "ŞIRNAK": 570, "SİVAS": 571, "TEKİRDAĞ": 572, "TOKAT": 573, "TRABZON": 574, "TUNCELİ": 575, 
+                "UŞAK": 576, "VAN": 577, "YALOVA": 578, "YOZGAT": 579, "ZONGULDAK": 580 }
+

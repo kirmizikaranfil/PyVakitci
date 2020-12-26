@@ -1,15 +1,19 @@
 # -*- coding: utf-8 -*-
 
-# Created: Tue Oct 22 23:02:26 2013
-#      by: PyQt4 UI code generator 4.10.3
+# Form implementation generated from reading ui file 'Hakkinda.ui'
+#
+# Created: Sun Dec 27 00:54:43 2020
+#      by: PyQt4 UI code generator 4.11.3
+#
+# WARNING! All changes made in this file will be lost!
 
 from PyQt4 import QtCore, QtGui
 
 try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
     def _fromUtf8(s):
         return s
-except:
-    _fromUtf8 = QtCore.QString.fromUtf8
 
 try:
     _encoding = QtGui.QApplication.UnicodeUTF8
@@ -69,7 +73,7 @@ class Ui_Dialog(object):
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'Arial\'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">PyVakitci 1.6</p>\n"
+"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">PyVakitci 1.7</p>\n"
 "<p align=\"center\" style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'MS Shell Dlg 2\';\"><br /></p>\n"
 "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\';\">Diyanet verilerine göre tüm ülke ve şehirler için namaz </span></p>\n"
 "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\';\">vakitlerini gösterir. İsteğe bağlı olarak namaz vaktinde </span></p>\n"
@@ -77,7 +81,7 @@ class Ui_Dialog(object):
 "<p align=\"center\" style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Sans\';\"><br /></p>\n"
 "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\';\">Ezan için kullanılan ses dosyaları İsmail COŞAR\'a aittir. </span></p>\n"
 "<p align=\"center\" style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Sans\';\"><br /></p>\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\';\">Proje Sayfası: </span><a href=\"http://code.google.com/p/pyvakitci\"><span style=\" font-family:\'Sans\'; text-decoration: underline; color:#0000ff;\">http://code.google.com/p/pyvakitci</span></a></p></body></html>", None))
+"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans\';\"> </span><a href=\"https://sourceforge.net/projects/pyvakitci2011\"><span style=\" font-family:\'Sans\'; text-decoration: underline; color:#0000ff;\">https://sourceforge.net/projects/pyvakitci2011</span></a></p></body></html>", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.hakkinda_tab), _translate("Dialog", "Hakkında", None))
         self.yazar_label.setText(_translate("Dialog", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"

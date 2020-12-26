@@ -27,25 +27,25 @@ class SehirleriAl:
             return False
 
     def basla(self):
-        url = DiyanetUlkeler.COUNTRY_URL
+        url = DiyanetUlkeler.REQUEST_URL
+        
+        sehirler = None
         
         if self.siteyeBaglantiVarMi(url):
             url = url
-        else:
-            url = DiyanetUlkeler.COUNTRY_URL_NEW
         
-        try:
-            response = requests.get(url=url, params={"countryCode" : DiyanetUlkeler.ulkeler.get(self.ulke)})
-            veriler = json.loads(response.text)
-            
-            sehirler = {}
-            
-            for i in range(0, len(veriler), 1):
-                sehirler.__setitem__(veriler[i].get("Text"), veriler[i].get("Value"))
+            try:
+                response = requests.get(url= url , params={"ChangeType" : "country", "CountryId" : DiyanetUlkeler.ulkeler.get(self.ulke)})
+                veriler = json.loads(response.text)
                 
-            self.settings = QtCore.QSettings(SehirleriAl.ayarDosyasi, QtCore.QSettings.IniFormat)
-            self.settings.setValue("Diyanet/sehirler", sehirler)
-        except:
-            sehirler = None
+                sehirler = {}
+                
+                for i in range(0, len(veriler["StateList"]), 1):
+                    sehirler.__setitem__(veriler["StateList"][i].get("SehirAdi"), veriler["StateList"][i].get("SehirID"))
+                    
+                self.settings = QtCore.QSettings(SehirleriAl.ayarDosyasi, QtCore.QSettings.IniFormat)
+                self.settings.setValue("Diyanet/sehirler", sehirler)
+            except:
+                sehirler = None
             
-        return sehirler
+            return sehirler

@@ -11,8 +11,9 @@ from moduller.DiyanetUlkeler import DiyanetUlkeler
 class IlceleriAl:
     ayarDosyasi = None
     
-    def __init__(self, sehirlerListesi, sehir):
+    def __init__(self, sehirlerListesi, ulke, sehir):
         self.sehirler = sehirlerListesi
+        self.ulke = ulke
         self.sehir = sehir
         
     def siteyeBaglantiVarMi(self, url):
@@ -26,26 +27,31 @@ class IlceleriAl:
             return False
 
     def basla(self):
-        url = DiyanetUlkeler.CITY_URL
+        url = DiyanetUlkeler.REQUEST_URL
         
-        if self.siteyeBaglantiVarMi(url):
-            url = url
-        else:
-            url = DiyanetUlkeler.CITY_URL_NEW
+        ilceler = None
         
-        try:
-            response = requests.get(url=url, params={"itemId" : self.sehirler.get(self.sehir)})
-            veriler = json.loads(response.text)
-            
-            ilceler = {}
-            
-            for i in range(0, len(veriler), 1):
-                ilceler.__setitem__(veriler[i].get("Text"), veriler[i].get("Value"))
+        if self.siteyeBaglantiVarMi(url):       
+            try:
+                response = requests.get(url= url , 
+                                        params={"ChangeType" : "state", 
+                                                "CountryId" : DiyanetUlkeler.ulkeler.get(self.ulke),
+                                                "StateId" : self.sehirler.get(self.sehir)})
+                veriler = json.loads(response.text)
                 
-            self.settings = QtCore.QSettings(IlceleriAl.ayarDosyasi, QtCore.QSettings.IniFormat)
-            self.settings.setValue("Diyanet/ilceler", ilceler)
+                ilceler = {}
+                linkler = {}
+                
+                for i in range(0, len(veriler["StateRegionList"]), 1):
+                    ilceler.__setitem__(veriler["StateRegionList"][i].get("IlceAdi"), veriler["StateRegionList"][i].get("IlceID"))
+                    linkler.__setitem__(veriler["StateRegionList"][i].get("IlceAdi"), veriler["StateRegionList"][i].get("IlceUrl"))
+                
+                self.settings = QtCore.QSettings(IlceleriAl.ayarDosyasi, QtCore.QSettings.IniFormat)
+                self.settings.setValue("Diyanet/ilceler", ilceler)
+                self.settings.setValue("Diyanet/linkler", linkler)
         
-        except:
-            ilceler = None
+            except:
+                ilceler = None
+                linkler = None
         
-        return ilceler
+        return ilceler, linkler
