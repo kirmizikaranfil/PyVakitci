@@ -2,10 +2,9 @@
 # -*- coding: utf-8 -*-
 
 import sys
-from PyQt4 import QtGui, QtCore
 from cx_Freeze import setup, Executable
 
-includes = ["sip","re","atexit","PyQt4"]
+includes = ["atexit","PyQt5"]
 
 includefiles = ["GPLv3_EN.html",
                 "GPLv3_TR.html",
@@ -26,10 +25,10 @@ exe = Executable(
     base = base,
     #targetDir = "dist",
     targetName = "PyVakitci.exe",
-    compress = True,
-    copyDependentFiles = True,
-    appendScriptToExe = True,
-    appendScriptToLibrary = True,
+    #compress = True,
+    #copyDependentFiles = True,
+    #appendScriptToExe = True,
+    #appendScriptToLibrary = True,
     icon = "C:/cami.ico",
     )
 
@@ -37,13 +36,15 @@ setup(
     author = "Rahman Yazgan",
     author_email = 'rahmanyazgan@gmail.com',
     name = "PyVakitci",
-    version = "1.5",
+    version = "1.7",
     description = "Diyanet verilerine göre tüm ülkeler için namaz vakitlerini gösterir. Ezan ve ezan duasını okur.",
     options = {"build_exe": {"includes": includes,
                              "include_files": includefiles,
                              "excludes": excludes,
                              "packages": packages,
-                             "path": path
+                             "path": path,
+                             "zip_include_packages": "*", 
+                             "zip_exclude_packages": ""
                              }
                },
     executables = [exe]

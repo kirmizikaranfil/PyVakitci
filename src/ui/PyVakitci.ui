@@ -1388,10 +1388,10 @@ hatırlanması için buraya tıklayın.</string>
         </font>
        </property>
        <property name="toolTip">
-        <string>Stopify'da çalan şarkıyı duraklat.</string>
+        <string>Spotify'da çalan şarkıyı duraklat.</string>
        </property>
        <property name="text">
-        <string>Stopifyı duraklat</string>
+        <string>Spotifyı duraklat</string>
        </property>
       </widget>
      </widget>
