@@ -4,7 +4,7 @@
 # Lisans : GPL v.3
 
 import datetime, re, requests, sqlite3, threading
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtGui, QtCore, QtWidgets
 from bs4 import BeautifulSoup
 
 from moduller.SiteyeBaglan import SiteyeBaglan
@@ -196,6 +196,6 @@ class Vakitler(threading.Thread):
                     #except:
                     #    pass
                 else:
-                    QtGui.QMessageBox.information(self, "Bilgilendirme", "Diyanetin sitesine bağlanılamadığından vakitler alınamadı/güncellenemedi.","Tamam")
+                    QtWidgets.QMessageBox.Information(self, "Bilgilendirme", "Diyanetin sitesine bağlanılamadığından vakitler alınamadı/güncellenemedi.","Tamam")
         except:
             pass

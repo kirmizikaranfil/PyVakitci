@@ -3,12 +3,12 @@
 # Hazırlayan : Rahman Yazgan (rahmanyazgan@gmail.com)
 # Lisans : GPL v.3
 
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtWidgets, QtGui, QtCore
 from moduller.Ui_Hakkinda import Ui_Dialog
 
-class Hakkinda(QtGui.QDialog, Ui_Dialog):
+class Hakkinda(QtWidgets.QDialog, Ui_Dialog):
     def __init__(self):
-        QtGui.QDialog.__init__(self)
+        QtWidgets.QDialog.__init__(self)
         self.setupUi(self)
         
         self.hakkinda_label.linkActivated.connect(self.siteyeGir)

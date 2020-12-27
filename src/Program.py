@@ -3,11 +3,11 @@
 
 # Hazırlayan : Rahman Yazgan (rahmanyazgan@gmail.com)
 # Lisans : GPL v.3
-# Sürüm : 1.62
+# Sürüm : 1.7
 # Platform : Windows
 
 import sys
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui, QtWidgets
 from moduller.PyVakitci import PyVakitci
 
 class Program:
@@ -25,9 +25,6 @@ class Program:
 
         if not self.pyvakitci.sistem_tepsisinde_baslat_checkBox.isChecked():
             self.pyvakitci.show()
-        
-        if self.pyvakitci.besmele_ile_basla_checkBox.isChecked():
-            self.pyvakitci.besmeleyleBasla()
             
         self.zamanlayiciyiBaslat()
     
@@ -68,7 +65,7 @@ if __name__ == "__main__":
         
         sys.exit(0)
     
-    uygulama = QtGui.QApplication(sys.argv)
+    uygulama = QtWidgets.QApplication(sys.argv)
     program = Program()
-    QtGui.QApplication.setQuitOnLastWindowClosed(False)
+    QtWidgets.QApplication.setQuitOnLastWindowClosed(False)
     sys.exit(uygulama.exec_())

@@ -129,6 +129,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>8</pointsize>
         </font>
        </property>
@@ -147,6 +148,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>10</pointsize>
          <weight>50</weight>
          <bold>false</bold>
@@ -168,6 +170,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>8</pointsize>
         </font>
        </property>
@@ -189,6 +192,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>8</pointsize>
         </font>
        </property>
@@ -210,6 +214,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>8</pointsize>
         </font>
        </property>
@@ -255,6 +260,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>11</pointsize>
          <weight>50</weight>
          <bold>false</bold>
@@ -310,6 +316,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>11</pointsize>
          <weight>50</weight>
          <bold>false</bold>
@@ -331,6 +338,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>11</pointsize>
          <weight>50</weight>
          <bold>false</bold>
@@ -352,6 +360,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>11</pointsize>
          <weight>50</weight>
          <bold>false</bold>
@@ -373,6 +382,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>11</pointsize>
          <weight>50</weight>
          <bold>false</bold>
@@ -394,6 +404,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>11</pointsize>
          <weight>50</weight>
          <bold>false</bold>
@@ -415,6 +426,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>11</pointsize>
          <weight>50</weight>
          <bold>false</bold>
@@ -436,6 +448,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>10</pointsize>
          <weight>50</weight>
          <bold>false</bold>
@@ -457,6 +470,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>10</pointsize>
          <weight>50</weight>
          <bold>false</bold>
@@ -481,6 +495,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>10</pointsize>
          <weight>50</weight>
          <bold>false</bold>
@@ -502,6 +517,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>10</pointsize>
          <weight>50</weight>
          <bold>false</bold>
@@ -526,6 +542,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>10</pointsize>
          <weight>50</weight>
          <bold>false</bold>
@@ -547,6 +564,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>10</pointsize>
          <weight>50</weight>
          <bold>false</bold>
@@ -571,6 +589,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>11</pointsize>
          <weight>50</weight>
          <bold>false</bold>
@@ -592,6 +611,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>11</pointsize>
          <weight>50</weight>
          <bold>false</bold>
@@ -613,6 +633,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>11</pointsize>
          <weight>50</weight>
          <bold>false</bold>
@@ -634,6 +655,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>11</pointsize>
          <weight>50</weight>
          <bold>false</bold>
@@ -655,6 +677,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>11</pointsize>
          <weight>50</weight>
          <bold>false</bold>
@@ -676,6 +699,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>11</pointsize>
          <weight>50</weight>
          <bold>false</bold>
@@ -697,6 +721,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>9</pointsize>
          <weight>50</weight>
          <bold>false</bold>
@@ -718,6 +743,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>11</pointsize>
          <weight>50</weight>
          <bold>false</bold>
@@ -739,6 +765,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>11</pointsize>
          <weight>50</weight>
          <bold>false</bold>
@@ -936,6 +963,7 @@ hatırlanması için buraya tıklayın.</string>
       </property>
       <property name="font">
        <font>
+        <family>Arial</family>
         <pointsize>11</pointsize>
        </font>
       </property>
@@ -962,6 +990,7 @@ hatırlanması için buraya tıklayın.</string>
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>11</pointsize>
         </font>
        </property>
@@ -986,6 +1015,7 @@ hatırlanması için buraya tıklayın.</string>
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>11</pointsize>
         </font>
        </property>
@@ -1010,6 +1040,7 @@ hatırlanması için buraya tıklayın.</string>
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>11</pointsize>
         </font>
        </property>
@@ -1028,6 +1059,7 @@ hatırlanması için buraya tıklayın.</string>
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>11</pointsize>
         </font>
        </property>
@@ -1050,6 +1082,7 @@ hatırlanması için buraya tıklayın.</string>
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>11</pointsize>
         </font>
        </property>
@@ -1077,6 +1110,7 @@ hatırlanması için buraya tıklayın.</string>
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>11</pointsize>
         </font>
        </property>
@@ -1101,6 +1135,7 @@ hatırlanması için buraya tıklayın.</string>
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>11</pointsize>
         </font>
        </property>
@@ -1125,6 +1160,7 @@ hatırlanması için buraya tıklayın.</string>
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>11</pointsize>
         </font>
        </property>
@@ -1143,6 +1179,7 @@ hatırlanması için buraya tıklayın.</string>
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>11</pointsize>
         </font>
        </property>
@@ -1161,6 +1198,7 @@ hatırlanması için buraya tıklayın.</string>
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>11</pointsize>
         </font>
        </property>
@@ -1185,6 +1223,7 @@ hatırlanması için buraya tıklayın.</string>
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>11</pointsize>
         </font>
        </property>
@@ -1244,6 +1283,7 @@ hatırlanması için buraya tıklayın.</string>
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>11</pointsize>
         </font>
        </property>
@@ -1271,6 +1311,7 @@ hatırlanması için buraya tıklayın.</string>
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>11</pointsize>
         </font>
        </property>
@@ -1284,9 +1325,9 @@ hatırlanması için buraya tıklayın.</string>
       <widget class="QCheckBox" name="winamp_duraklat_checkBox">
        <property name="geometry">
         <rect>
-         <x>10</x>
+         <x>153</x>
          <y>175</y>
-         <width>285</width>
+         <width>141</width>
          <height>23</height>
         </rect>
        </property>
@@ -1298,11 +1339,15 @@ hatırlanması için buraya tıklayın.</string>
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>11</pointsize>
         </font>
        </property>
-       <property name="text">
+       <property name="toolTip">
         <string>Winamp'ta çalan şarkıyı duraklat.</string>
+       </property>
+       <property name="text">
+        <string>Winampı duraklat</string>
        </property>
       </widget>
       <widget class="QSpinBox" name="hicri_tarih_gun_ekle_spinBox">
@@ -1319,6 +1364,34 @@ hatırlanması için buraya tıklayın.</string>
        </property>
        <property name="maximum">
         <number>1</number>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="stopify_duraklat_checkBox">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>175</y>
+         <width>137</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>Stopify'da çalan şarkıyı duraklat.</string>
+       </property>
+       <property name="text">
+        <string>Stopifyı duraklat</string>
        </property>
       </widget>
      </widget>
@@ -1345,6 +1418,7 @@ hatırlanması için buraya tıklayın.</string>
       </property>
       <property name="font">
        <font>
+        <family>Arial</family>
         <pointsize>11</pointsize>
        </font>
       </property>
@@ -1780,16 +1854,6 @@ hatırlanması için buraya tıklayın.</string>
        <string>Ekle</string>
       </property>
      </widget>
-     <widget class="Phonon::VolumeSlider" name="volumeSlider">
-      <property name="geometry">
-       <rect>
-        <x>195</x>
-        <y>315</y>
-        <width>115</width>
-        <height>22</height>
-       </rect>
-      </property>
-     </widget>
      <widget class="QCheckBox" name="sabah_ezani_oku_checkBox">
       <property name="geometry">
        <rect>
@@ -1894,6 +1958,28 @@ hatırlanması için buraya tıklayın.</string>
        <string/>
       </property>
      </widget>
+     <widget class="QSlider" name="horizontalSlider">
+      <property name="geometry">
+       <rect>
+        <x>189</x>
+        <y>320</y>
+        <width>121</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="maximum">
+       <number>100</number>
+      </property>
+      <property name="value">
+       <number>30</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="tickPosition">
+       <enum>QSlider::TicksBelow</enum>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="linkler_tab">
      <attribute name="icon">
@@ -1935,6 +2021,7 @@ hatırlanması için buraya tıklayın.</string>
        </property>
        <property name="font">
         <font>
+         <family>Arial</family>
          <pointsize>11</pointsize>
         </font>
        </property>
@@ -2264,14 +2351,14 @@ p, li { white-space: pre-wrap; }
    <widget class="QMenu" name="menuGorunum">
     <property name="font">
      <font>
+      <family>Arial</family>
       <pointsize>10</pointsize>
      </font>
     </property>
     <property name="title">
      <string>Görünüm</string>
     </property>
-    <addaction name="actionCleanlooks"/>
-    <addaction name="actionPlastique"/>
+    <addaction name="actionFusion"/>
     <addaction name="separator"/>
     <addaction name="actionWindowsXP"/>
     <addaction name="actionWindowsVista"/>
@@ -2353,20 +2440,12 @@ p, li { white-space: pre-wrap; }
     </font>
    </property>
   </action>
-  <action name="actionCleanlooks">
+  <action name="actionFusion">
    <property name="text">
-    <string>Cleanlooks</string>
+    <string>Fusion</string>
    </property>
-   <property name="font">
-    <font>
-     <family>Arial</family>
-     <pointsize>11</pointsize>
-    </font>
-   </property>
-  </action>
-  <action name="actionPlastique">
-   <property name="text">
-    <string>Plastique</string>
+   <property name="toolTip">
+    <string>Fusion</string>
    </property>
    <property name="font">
     <font>
@@ -2387,13 +2466,6 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>Phonon::VolumeSlider</class>
-   <extends>QWidget</extends>
-   <header location="global">phonon/volumeslider.h</header>
-  </customwidget>
- </customwidgets>
  <resources>
   <include location="PyVakitci.qrc"/>
  </resources>

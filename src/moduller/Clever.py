@@ -4,7 +4,7 @@
 # Lisans : GPL v.3
 # Winamp Kontrol Modulu (http://www.etcwiki.org/wiki/Winamp_command_line)
 
-from PyQt4 import QtCore
+from PyQt5 import QtCore
 import os, shutil
 
 class Clever:

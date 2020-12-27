@@ -7,7 +7,7 @@ import json, requests
 from moduller.SiteyeBaglan import SiteyeBaglan
 from moduller.DiyanetUlkeler import DiyanetUlkeler
 
-from PyQt4 import QtCore
+from PyQt5 import QtCore
 
 class SehirleriAl:
     ulke = None

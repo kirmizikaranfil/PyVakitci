@@ -6,24 +6,12 @@
 # Sürüm : 1.7
 # Platform : Windows
 
-import datetime, os, platform, re, shutil, sys, threading, urllib.request, webbrowser, winreg
+import datetime, os, platform, re, shutil, sys, threading, urllib.request, winreg, win32api
+from time import sleep
+from win32con import VK_MEDIA_PLAY_PAUSE, KEYEVENTF_EXTENDEDKEY
 
-try:
-    from PyQt4 import QtCore, QtGui
-    from PyQt4.phonon import Phonon
-except:
-    url = "http://www.riverbankcomputing.co.uk/software/pyqt/download"
-    print("PyQt4 modülü ve/veya Phonon yüklü değil.\n\n" +
-          "Kurulum:\n" + url + "\n\n" +
-          "sitesine giderek sisteminizdeki kurulu Python sürümüne uygun olanı indiriniz.\n" +
-          "Yükledikten sonra PyVakitci'yi çalıştırmayı tekrar deneyebilirsiniz.\n\n")
-
-    siteyeGit = input("PyQt4 modülünü indirmek için 1 yazın: ")
-
-    if siteyeGit == "1":
-        webbrowser.open_new_tab(url)
-
-    exit()
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtMultimedia, QtNetwork
    
 from moduller.DiyanetUlkeler import DiyanetUlkeler
 from moduller.SehirleriAl import SehirleriAl
@@ -38,7 +26,7 @@ from moduller.Clever import Clever
 from moduller.AylikVakitler import AylikVakitler
 from moduller.Ui_PyVakitci import Ui_MainWindow
 
-class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
+class PyVakitci(QtWidgets.QMainWindow, Ui_MainWindow):
     calismaDizini = ""
     diyanetUlkeler = None
     ilceler = None
@@ -51,10 +39,9 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
         super(PyVakitci, self).__init__()
         self.setupUi(self)
         
-        self.phononModulunuAktiflestir()
         self.degiskenleriHazirla()
         self.sinyalleriEkle()
-        self.cleanlooksGorunumu()
+        self.fusionGorunumu()
         self.calismaDizininiHazirla()
         self.bolgeselAyarlar()
         self.ekrandaOrtala()
@@ -64,13 +51,17 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
         self.hicriTarihiGuncelle()
         self.otomatikGuncellestir()
         self.saatGuncelleyiciyiCalistir()
+        
+        self.player = QtMultimedia.QMediaPlayer()
+        self.initMultimedia()
+        
+        if self.besmele_ile_basla_checkBox.isChecked():
+            self.besmeleyleBasla()
        
-    def phononModulunuAktiflestir(self):
-        self.mediaNesnesi = Phonon.MediaObject(self)
-        self.audioOutput = Phonon.AudioOutput(Phonon.MusicCategory, self)
-        Phonon.createPath(self.mediaNesnesi, self.audioOutput)
-
-        self.volumeSlider.setAudioOutput(self.audioOutput)
+    def initMultimedia(self, filePath = "D:/test.mp3"):
+        url= QtCore.QUrl.fromLocalFile(filePath)
+        content= QtMultimedia.QMediaContent(url)
+        self.player.setMedia(content)
            
     def degiskenleriHazirla(self):        
         self.volume = 0
@@ -120,20 +111,17 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
         self.rlock = threading.RLock()
 
     def sinyalleriEkle(self):
-        self.actionCleanlooks.triggered.connect(self.cleanlooksGorunumu)
-        self.actionPlastique.triggered.connect(self.plastiqueGorunumu)
+        self.actionFusion.triggered.connect(self.fusionGorunumu)
         self.actionWindowsXP.triggered.connect(self.windowsXPGorunumu)
         self.actionWindowsVista.triggered.connect(self.windowsVistaGorunumu)
         self.actionCikis.triggered.connect(self.programiKapat)
         self.actionVakitleriGoster.triggered.connect(self.vakitleriGoster)
         self.actionLisans.triggered.connect(self.lisans)
         self.actionHakkinda.triggered.connect(self.hakkindaDialog)
-        self.actionQtHakkinda.triggered.connect(QtGui.QApplication.aboutQt)
+        self.actionQtHakkinda.triggered.connect(QtWidgets.QApplication.aboutQt)
         self.ikon_goster_checkBox.stateChanged.connect(self.trayIconGoster)
         self.her_zaman_ustte_checkBox.stateChanged.connect(self.herZamanUstte)
         self.winamp_duraklat_checkBox.stateChanged.connect(self.winampVarMi)
-        self.audioOutput.mutedChanged.connect(self.sesAyari)
-        self.audioOutput.volumeChanged.connect(self.mutedAyari)
         self.sabah_ezani_oku_checkBox.stateChanged.connect(self.ezanOkuKontrol)
         self.ogle_ezani_oku_checkBox.stateChanged.connect(self.ezanOkuKontrol)
         self.ikindi_ezani_oku_checkBox.stateChanged.connect(self.ezanOkuKontrol)
@@ -159,6 +147,7 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
         self.trayIcon.activated.connect(self.iconActivated)
         self.pushButton_android.clicked.connect(self.risaleAppForAndroid)
         self.pushButton_ios.clicked.connect(self.risaleAppForIOS)
+        self.horizontalSlider.valueChanged.connect(self.sesSeviyesiDegisti)
         
     def risaleAppForAndroid(self):
         url = "https://play.google.com/store/apps/details?id=com.nesil.risalei_nur&hl=tr&gl=US"
@@ -188,8 +177,8 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
             self.show()
 
     def ekrandaOrtala(self):
-        self.move((QtGui.QDesktopWidget().screenGeometry().width() - self.geometry().width()) / 2,
-                  (QtGui.QDesktopWidget().screenGeometry().height() - self.geometry().height()) / 2)
+        self.move((QtWidgets.QDesktopWidget().screenGeometry().width() - self.geometry().width()) / 2,
+                  (QtWidgets.QDesktopWidget().screenGeometry().height() - self.geometry().height()) / 2)
 
     def calismaDizininiHazirla(self):
         if QtCore.QDir.exists(QtCore.QDir(self.ayarlarKonum)) == False:
@@ -207,20 +196,20 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
         self.ontanimliAyarDosyasi = self.ontanimliAyarDosyasiYeni
         
     def mesajKutusunuGoster(self, surumNotlari, version):
-        messageBox = QtGui.QMessageBox()
+        messageBox = QtWidgets.QMessageBox()
         ikon = QtGui.QIcon()
         ikon.addPixmap(QtGui.QPixmap(":resimler/cami.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         messageBox.setWindowIcon(ikon)
-        messageBox.setIcon(QtGui.QMessageBox.Question)
+        messageBox.setIcon(QtWidgets.QMessageBox.Question)
         messageBox.setWindowTitle("Güncelleme")
         
-        yesButton = QtGui.QPushButton('Yeni Kurulum (23 mb)')
-        noButton = QtGui.QPushButton('Güncelleme (2 mb)')
-        cancelCheckBox = QtGui.QCheckBox("Bir Daha Gösterme")
+        yesButton = QtWidgets.QPushButton('Yeni Kurulum (23 mb)')
+        noButton = QtWidgets.QPushButton('Güncelleme (2 mb)')
+        cancelCheckBox = QtWidgets.QCheckBox("Bir Daha Gösterme")
         
-        messageBox.addButton(yesButton, QtGui.QMessageBox.YesRole)        
-        messageBox.addButton(noButton, QtGui.QMessageBox.NoRole)
-        messageBox.addButton(cancelCheckBox, QtGui.QMessageBox.RejectRole)
+        messageBox.addButton(yesButton, QtWidgets.QMessageBox.YesRole)        
+        messageBox.addButton(noButton, QtWidgets.QMessageBox.NoRole)
+        messageBox.addButton(cancelCheckBox, QtWidgets.QMessageBox.RejectRole)
         messageBox.setDefaultButton(noButton)
         
         version = str(version)
@@ -264,7 +253,7 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
 
     # trayIcon a tıklandığında program görünür/görünmez olur.
     def iconActivated(self, reason):
-        if reason in (QtGui.QSystemTrayIcon.Trigger, QtGui.QSystemTrayIcon.DoubleClick):
+        if reason in (QtWidgets.QSystemTrayIcon.Trigger, QtWidgets.QSystemTrayIcon.DoubleClick):
             try:
                 if self.isVisible():
                     self.hide()
@@ -274,21 +263,18 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
             except AttributeError:
                 pass
 
-    def cleanlooksGorunumu(self):
-        self.gorunumuDegistir("Cleanlooks")
-
-    def plastiqueGorunumu(self):
-        self.gorunumuDegistir("Plastique")
+    def fusionGorunumu(self):
+        self.gorunumuDegistir("Fusion")
 
     def windowsXPGorunumu(self):
-        self.gorunumuDegistir("WindowsXP")
+        self.gorunumuDegistir("Windows")
 
     def windowsVistaGorunumu(self):
-        self.gorunumuDegistir("WindowsVista")
+        self.gorunumuDegistir("windowsvista")
 
     def gorunumuDegistir(self, lookAndFeel):
         self.gorunum = lookAndFeel
-        QtGui.QApplication.setStyle(QtGui.QStyleFactory.create(self.gorunum))
+        QtWidgets.QApplication.setStyle(QtWidgets.QStyleFactory.create(self.gorunum))
 
     # Visual Basic Script koduyla kısayol dosyası oluşturularak başlangıç dizinine ekleniyor.
     def vbScriptKodu(self, durum):
@@ -366,8 +352,6 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
    
             if QtCore.QFile.exists(QtCore.QFile(dosya)):
                 os.popen(str("wscript.exe " + dosya))
-               
-                from time import sleep
                 sleep(2)
                
                 QtCore.QFile(dosya).remove()
@@ -375,7 +359,7 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
     def besmeleyleBasla(self):
         if self.besmele_ile_basla_checkBox.isChecked():
             self.sesDosyasiniAc(self.besmeleDosyasi)
-
+            
     def herZamanUstte(self):
         if self.her_zaman_ustte_checkBox.isChecked():
             self.windowFlag = self.windowFlags()
@@ -411,10 +395,10 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
             self.uyari_sesi_checkBox.setChecked(False)
 
     def karakterKontrol(self):
-        QtGui.QMessageBox.warning(self, "Hata", "0 ve 99 arasında bir sayı girin.", "Tamam")
+        QtWidgets.QMessageBox.warning(self, "Hata", "0 ve 99 arasında bir sayı girin.", "Tamam")
 
     def dosyaEkle(self, lineEdit):
-        konum = QtGui.QFileDialog.getOpenFileName(self, "Aç", "", "Ses Dosyaları (*.mp3 *.ogg *.wma *.wav)")
+        konum = QtWidgets.QFileDialog.getOpenFileName(self, "Aç", "", "Ses Dosyaları (*.mp3 *.ogg *.wma *.wav)")
 
         if len(konum) > 0:
             lineEdit.setText(konum)
@@ -424,14 +408,14 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
             winampKonum = self.settings.value("Ayarlar/winamp_konum")
             
             if winampKonum == None:
-                QtGui.QMessageBox.information(self, "Bilgilendirme",
+                QtWidgets.QMessageBox.information(self, "Bilgilendirme",
                                               "Winamp programını seçmeniz gerekiyor. \nProgram seçerken aşağıdaki konumlara bakın:\n\n" +
                                               "C:\\Program Files\\Winamp\n" +
                                               "C:\\Program Files (x86)\\Winamp\n" +
                                               "C:\\Program Dosyaları (x86)\\Winamp\n" +
                                               "C:\\Program Dosyaları\\Winamp\n",
-                                              "Tamam")
-                konum = QtGui.QFileDialog.getOpenFileName(self, "Aç", "", "Exe Dosyaları (winamp.exe)")
+                                              QtWidgets.QMessageBox.Ok)
+                konum = QtWidgets.QFileDialog.getOpenFileName(self, "Aç", "", "Exe Dosyaları (winamp.exe)")
        
                 if len(konum) > 0:
                     self.settings.setValue("Ayarlar/winamp_konum", konum)
@@ -467,17 +451,15 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
 
     def sesAyari(self):
         if self.volume == None:
-            self.volume = self.audioOutput.volume()
-            self.audioOutput.setVolume(0)
+            self.volume = self.horizontalSlider.value()
+            self.horizontalSlider.setValue(0)
         else:
-            self.audioOutput.setVolume(self.volume)
+            self.horizontalSlider.setValue(self.volume)
             self.volume = None
 
-    def mutedAyari(self, volume):
-        if volume == 0:
-            self.audioOutput.setMuted(True)
-        else:
-            self.audioOutput.setMuted(False)
+    def sesSeviyesiDegisti(self):
+        self.volume = self.horizontalSlider.value()
+        self.player.setVolume(self.volume)
            
     def saatGuncelleyiciyiCalistir(self):
         self.timerSaat = QtCore.QTimer()
@@ -574,11 +556,11 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
            
             if self.gorunum != None:
                 if len(self.gorunum) > 0:
-                    QtGui.QApplication.setStyle(QtGui.QStyleFactory.create(self.gorunum))
+                    QtWidgets.QApplication.setStyle(QtWidgets.QStyleFactory.create(self.gorunum))
                 else:
-                    self.cleanlooksGorunumu()
+                    self.fusionGorunumu()()
             else:
-                self.cleanlooksGorunumu()
+                self.fusionGorunumu()
    
             self.ulkeler_comboBox.setCurrentIndex(int(self.settings.value("Ayarlar/ulke")))
             self.sehirler_comboBox.setCurrentIndex(int(self.settings.value("Ayarlar/sehir")))
@@ -633,6 +615,12 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
                 self.winamp_duraklat_checkBox.setChecked(False)
             if winampDuraklat == 2:
                 self.winamp_duraklat_checkBox.setChecked(True)
+                
+            stopifyDuraklat = int(self.settings.value("Ayarlar/stopify_duraklat"))
+            if stopifyDuraklat == 0:
+                self.stopify_duraklat_checkBox.setChecked(False)
+            if stopifyDuraklat == 2:
+                self.stopify_duraklat_checkBox.setChecked(True)
    
             sabahEzaniOku = int(self.settings.value("Ayarlar/sabah_ezani_oku"))
             if sabahEzaniOku == 0:
@@ -711,8 +699,9 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
             self.hicri_tarih_gun_ekle_spinBox.setValue(int(ilaveGunSayisi))
    
             sesAyari = float(self.settings.value("Ses_Ayarlari/ses_ayari"))
-            self.audioOutput.setVolume(sesAyari)
-            self.volume = self.audioOutput.volume()
+            self.horizontalSlider.setValue(sesAyari)
+            
+            self.volume = self.horizontalSlider.value()
    
             sesDosyasiSabah = self.settings.value("Ses_Ayarlari/sabah")
             self.sesDosyasiKontrol(self.sabah_lineEdit, sesDosyasiSabah)
@@ -740,7 +729,7 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
        
         except TypeError:
             if QtCore.QFile.exists(self.ayarDosyasi):
-                QtGui.QMessageBox.information(self, "Bilgilendirme", "Ayar dosyasında bozukluk tespit edildiğinden silindi. \nAyarlarınızı yaptıktan sonra kaydetmelisiniz.", "Tamam")
+                QtWidgets.QMessageBox.information(self, "Bilgilendirme", "Ayar dosyasında bozukluk tespit edildiğinden silindi. \n\nAyarlarınızı yaptıktan sonra kaydetmelisiniz.", QtWidgets.QMessageBox.Ok)
                
                 QtCore.QFile(self.ayarDosyasi).remove()
                 self.varsayilanAyarlar()
@@ -793,7 +782,7 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
             self.varsayilanAyarlar()
 
     def ayarlariKaydet(self):
-        QtGui.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
+        QtWidgets.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
 
         self.calismaDizininiHazirla()
        
@@ -812,6 +801,7 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
         self.settings.setValue("Ayarlar/her_zaman_ustte", self.her_zaman_ustte_checkBox.checkState())
         self.settings.setValue("Ayarlar/besmele_ile_basla", self.besmele_ile_basla_checkBox.checkState())
         self.settings.setValue("Ayarlar/winamp_duraklat", self.winamp_duraklat_checkBox.checkState())
+        self.settings.setValue("Ayarlar/stopify_duraklat", self.stopify_duraklat_checkBox.checkState())
         self.settings.setValue("Ayarlar/sabah_ezani_oku", self.sabah_ezani_oku_checkBox.checkState())
         self.settings.setValue("Ayarlar/ogle_ezani_oku", self.ogle_ezani_oku_checkBox.checkState())
         self.settings.setValue("Ayarlar/ikindi_ezani_oku", self.ikindi_ezani_oku_checkBox.checkState())
@@ -835,12 +825,12 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
         self.settings.setValue("Ses_Ayarlari/dua", self.dua_lineEdit.text())
         self.settings.setValue("Ses_Ayarlari/uyari", self.uyari_lineEdit.text())
         self.settings.setValue("Ses_Ayarlari/sela", self.sela_lineEdit.text())
-        self.settings.setValue("Ses_Ayarlari/ses_ayari", self.audioOutput.volume())
-        self.volume = self.audioOutput.volume()
+        self.settings.setValue("Ses_Ayarlari/ses_ayari", self.horizontalSlider.value())
+        self.volume = self.horizontalSlider.value()
        
         self.hicriTarihiGuncelle()
        
-        QtGui.QApplication.setOverrideCursor(QtCore.Qt.ArrowCursor)
+        QtWidgets.QApplication.setOverrideCursor(QtCore.Qt.ArrowCursor)
 
         self.vakitleriAl()
    
@@ -988,7 +978,7 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
             if Vakitler.tarihHatasi:
                 self.timerLabel.stop()
                 self.statusbar.clearMessage()
-                QtGui.QMessageBox.warning(self, "Tarih Hatası",
+                QtWidgets.QMessageBox.warning(self, "Tarih Hatası",
                                                 "Sisteminizin tarihi yanlış. Tarihi düzelttikten sonra veya \"Vakitleri aylık olarak al.\" " +
                                                 "seçeneğinin işaretini kaldırdıktan sonra Ayarlar sekmesindeki Kaydet butonuna tıklayın.",
                                                 "Tamam")
@@ -1163,41 +1153,49 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
         self.timerMesaj.stop()
 
     def sesDosyasiniAc(self, dosya):
-        self.mediaNesnesi.setCurrentSource(Phonon.MediaSource(dosya))
+        self.initMultimedia(dosya)
 
         try:
-            self.mediaNesnesi.stop()
+            self.player.stop()
         except:
             pass
 
-        self.mediaNesnesi.play()
-
-    def ezanOku(self, dosya):
+        self.player.play()
+        
+    def stopifyOynatDuraklat(self):
+        win32api.keybd_event(VK_MEDIA_PLAY_PAUSE, 0, KEYEVENTF_EXTENDEDKEY, 0)
+        
+    def mediaPlayersPlayOrPause(self):
+        if self.stopify_duraklat_checkBox.isChecked():
+            self.stopifyOynatDuraklat()
+        
+        sleep(1)
+        
         if self.winamp_duraklat_checkBox.isChecked():
             self.winampKontrol.duraklat()
-       
+
+    def ezanOku(self, dosya):
+        self.mediaPlayersPlayOrPause()
+        
         self.sesDosyasiniAc(dosya)
-        self.mediaNesnesi.finished.connect(self.ezanDuasiniOku)
-
-    def ezanDuasiniOku(self):
-        if self.dua_oku_checkBox.isChecked():
-            self.mediaNesnesi.setCurrentSource(Phonon.MediaSource(self.dua_lineEdit.text()))
-
-            try:
-                self.mediaNesnesi.stop()
-            except:
-                pass
-
-            self.mediaNesnesi.play()
-            self.mediaNesnesi.finished.connect(self.sesDosyasiOynatmaBitti)
-        else:
-            self.sesDosyasiOynatmaBitti()
+        self.player.mediaStatusChanged.connect(self.ezanDuasiniOku)
+            
+    def ezanDuasiniOku(self, status):
+        if status == self.player.EndOfMedia:                
+            if self.dua_oku_checkBox.isChecked():
+                self.initMultimedia(self.dua_lineEdit.text())    
+                self.player.play()
+                
+                self.player.mediaStatusChanged.connect(self.sesDosyasiOynatmaBitti)
+            else:
+                self.sesDosyasiOynatmaBitti()
    
-    def sesDosyasiOynatmaBitti(self):
-        self.mediaNesnesi.stop()
-       
-        if self.winamp_duraklat_checkBox.isChecked():
-            self.winampKontrol.oynat()
+    def sesDosyasiOynatmaBitti(self, status):
+        if status == self.player.EndOfMedia:                
+            self.player.stop()
+            self.initMultimedia("")
+            
+            self.mediaPlayersPlayOrPause()
 
     def selaOkuKontrol(self, dakika):
         gun = QtCore.QDate().currentDate().toString("dddd")
@@ -1221,7 +1219,7 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
            
         self.selaDosyasi = self.sela_lineEdit.text()
         self.sesDosyasiniAc(self.selaDosyasi)
-        self.mediaNesnesi.finished.connect(self.sesDosyasiOynatmaBitti)
+        self.player.stateChanged.connect(self.sesDosyasiOynatmaBitti)
 
     def ulkeKontrolu(self):
         secilenUlke = self.ulkeler_comboBox.currentText()
@@ -1301,7 +1299,7 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
             if Vakitler.tarihHatasi == True:
                 self.timerLabel.stop()
                 self.statusbar.clearMessage()
-                QtGui.QMessageBox.warning(self, "Tarih Hatası",
+                QtWidgets.QMessageBox.warning(self, "Tarih Hatası",
                                           'Sisteminizin tarihi yanlış. Tarihi düzelttikten sonra veya "Vakitleri aylık olarak al." ' +
                                            "seçeneğinin işaretini kaldırdıktan sonra Ayarlar sekmesindeki Kaydet butonuna tıklayın" +
                                            "veya programı tekrar çalıştırın.", "Tamam")
@@ -1326,7 +1324,7 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
 
     def diyanetAylikVakitleriKaydet(self):
         if self.siteyeBaglantiVarMi(self.diyanetURL):
-            QtGui.QApplication.setOverrideCursor(QtCore.Qt.BusyCursor)
+            QtWidgets.QApplication.setOverrideCursor(QtCore.Qt.BusyCursor)
 
             self.statusbar.showMessage("Vakitler güncelleniyor...")
            
@@ -1344,13 +1342,13 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
 
             self.statusbar.clearMessage()
 
-            QtGui.QApplication.setOverrideCursor(QtCore.Qt.ArrowCursor)
+            QtWidgets.QApplication.setOverrideCursor(QtCore.Qt.ArrowCursor)
 
             self.vakitleriAl()
 
         else:
             self.statusbar.clearMessage()
-            QtGui.QMessageBox.warning(self, "Bağlantı Hatası",
+            QtWidgets.QMessageBox.warning(self, "Bağlantı Hatası",
                                             "Diyanetin sitesine bağlantı kurulamadığından dolayı \n" +
                                             "namaz vakitleri veritabanı güncellenemedi.",
                                             "Tamam")
@@ -1381,5 +1379,5 @@ class PyVakitci(QtGui.QMainWindow, Ui_MainWindow):
         sys.exit(0)
 
 if __name__ == "__main__":
-    uygulama = QtGui.QApplication(sys.argv)
+    uygulama = QtWidgets.QApplication(sys.argv)
     uygulama.setApplicationName("PyVakitci")

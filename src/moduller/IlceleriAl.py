@@ -4,7 +4,7 @@
 # Lisans : GPL v.3
 
 import json, requests
-from PyQt4 import QtCore
+from PyQt5 import QtCore
 from moduller.SiteyeBaglan import SiteyeBaglan
 from moduller.DiyanetUlkeler import DiyanetUlkeler
 

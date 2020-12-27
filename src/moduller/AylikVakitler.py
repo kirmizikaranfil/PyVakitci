@@ -4,14 +4,14 @@
 # Lisans : GPL v.3
 
 import sqlite3
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui, QtWidgets
 from moduller.Ui_Vakitler import Ui_Dialog
 
-class AylikVakitler(QtGui.QDialog, Ui_Dialog):
+class AylikVakitler(QtWidgets.QDialog, Ui_Dialog):
     veritabaniVarmi = None
     
     def __init__(self, veritabaniDosyasi):
-        QtGui.QDialog.__init__(self)
+        QtWidgets.QDialog.__init__(self)
         self.setupUi(self)
         
         self.tableView.setCornerButtonEnabled(False)
@@ -30,7 +30,7 @@ class AylikVakitler(QtGui.QDialog, Ui_Dialog):
                         self.exec_()
                         AylikVakitler.veritabaniVarmi = True
                     except:
-                        QtGui.QMessageBox.information(self, "Bilgilendirme",
+                        QtWidgets.QMessageBox.information(self, "Bilgilendirme",
                                                       "Aylık namaz vakitleri veritabanı boş. " + 
                                                       "\"Kapat\" butonuna bastığınızda veritabanınız güncellenecek.", 
                                                       "Kapat")
