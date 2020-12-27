@@ -25,6 +25,9 @@ class Program:
 
         if not self.pyvakitci.sistem_tepsisinde_baslat_checkBox.isChecked():
             self.pyvakitci.show()
+
+        if self.pyvakitci.besmele_ile_basla_checkBox.isChecked():
+            self.pyvakitci.besmeleyleBasla()
             
         self.zamanlayiciyiBaslat()
     

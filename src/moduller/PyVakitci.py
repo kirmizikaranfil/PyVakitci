@@ -54,9 +54,6 @@ class PyVakitci(QtWidgets.QMainWindow, Ui_MainWindow):
         self.otomatikGuncellestir()
         self.saatGuncelleyiciyiCalistir()
         self.initMultimedia()
-        
-        if self.besmele_ile_basla_checkBox.isChecked():
-            self.besmeleyleBasla()
        
     def initMultimedia(self, filePath = "D:/test.mp3"):
         url= QtCore.QUrl.fromLocalFile(filePath)
