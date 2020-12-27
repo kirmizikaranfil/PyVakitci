@@ -38,6 +38,8 @@ class PyVakitci(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
         super(PyVakitci, self).__init__()
         self.setupUi(self)
+
+        self.player = QtMultimedia.QMediaPlayer()
         
         self.degiskenleriHazirla()
         self.sinyalleriEkle()
@@ -51,8 +53,6 @@ class PyVakitci(QtWidgets.QMainWindow, Ui_MainWindow):
         self.hicriTarihiGuncelle()
         self.otomatikGuncellestir()
         self.saatGuncelleyiciyiCalistir()
-        
-        self.player = QtMultimedia.QMediaPlayer()
         self.initMultimedia()
         
         if self.besmele_ile_basla_checkBox.isChecked():
